@@ -6,7 +6,7 @@ has.
 
 Everything else in `kumo.engine` is constructed and threaded through directly, no
 `Backend`/`kumoai_studio.init(...)` needed (see "Object model" in the package
-README). Scratch-directory placement is the one
+guide). Scratch-directory placement is the one
 exception: `Graph.snapshot()`'s DiskGraph ingest and `Trainer.fit`/`predict`
 all read and write a shared local filesystem root
 (`kumo.engine._scratch.get_scratch_dir()`, default `~/.cache/kumo-engine`)

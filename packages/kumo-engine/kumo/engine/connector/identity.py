@@ -9,7 +9,7 @@ name (`kumo_core.sources.principals.IdentityRef = Union[str, Named]`). That's
 a registry, and a caller who wants to pass credentials directly would
 otherwise have to register them under a name first and then pass the name --
 exactly the indirection this package avoids elsewhere (see "Object model" in
-the package README).
+the package guide).
 
 `Identity` (and its five per-provider subclasses below) hides that: a caller
 builds e.g. `SnowflakeIdentity(account=..., username=..., password=...)` and

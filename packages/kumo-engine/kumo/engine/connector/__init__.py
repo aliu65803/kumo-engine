@@ -16,7 +16,7 @@ Provider argument lists mirror the equivalent cloud SDK classes
 minus the server-registry-only fields (`name`, `description`, `project_id`,
 `_response`) and the `_bind_connector` round-trip. See `kumo.engine.connector.base`.
 
-For `FileConnector`, see the package README's "Local files" section.
+For `FileConnector`, see the package guide's "Local files" section.
 """
 
 from kumo.engine.connector.base import Connector

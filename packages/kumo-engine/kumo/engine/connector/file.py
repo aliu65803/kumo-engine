@@ -242,7 +242,7 @@ class _FileSinkBackend(ObjectStoreSinkBackend):
 class FileConnector(Connector):
     """Read local CSV/Parquet tables and write local artifacts.
 
-    See the package README's "Local files" section for usage, path and
+    See the package guide's "Local files" section for usage, path and
     scratch constraints, source versioning, and artifact limitations.
     """
     def __init__(self, *, root_dir: str):

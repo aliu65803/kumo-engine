@@ -7,7 +7,7 @@ A `Table` describes a table definition (schema/columns) plus a
 `(Connector, table_name_or_path)` source pointer. Materializing the data
 happens later, when a `Graph` containing it is ingested via
 `Graph.snapshot()`. Schema inference can read the source first. See
-"Object model" in the package README.
+"Object model" in the package guide.
 
 Two ways to get a `Table` with `definition` populated:
 
