@@ -44,7 +44,7 @@ pip install kumo-engine
 ```
 
 Install connector dependencies with the `snowflake`, `s3`, `gcs`, `bigquery`,
-or `databricks` extra:
+`adls`, or `databricks` extra:
 
 ```
 pip install "kumo-engine[snowflake]"
@@ -300,6 +300,27 @@ Custom forecasting rows must include precomputed `future_labels` for training,
 year-over-year features when enabled. Constructors preserve these sequences;
 they do not derive them from entity, target, and timestamp columns.
 
+## Azure Data Lake Storage Gen2
+
+Install `kumo-engine[adls]` to read ADLS Gen2 CSV/Parquet sources and write
+predictions, embeddings, or model bundles beneath a configured root:
+
+```python
+from kumo.engine import ADLSConnector, Table
+
+lake = ADLSConnector(
+    root_dir="abfss://curated@companylake.dfs.core.windows.net/orders/",
+)
+orders = Table.from_source_table(lake["orders.parquet"], primary_key="id")
+```
+
+Requests use Azure's ambient credentials unless an
+`ADLSIdentity(tenant_id=..., client_id=..., cloud=...)` is passed directly.
+Explicit identities use `AZURE_FEDERATED_TOKEN_FILE` for workload federation.
+Rootless connectors accept full `abfss://` source URIs and do not support
+listing or output. See the [provider guide](../kumo-adls/README.md) for endpoint,
+authentication, and validation details.
+
 ## BigQuery staged ingestion
 
 BigQuery streams through the Storage Read API by default. For large tables,
@@ -394,7 +415,7 @@ Suggestions use graph/query metadata. Inferred settings resolve during training.
 
 The pipeline supports graph ingestion, query validation, plan suggestions,
 training/prediction table generation, GNN training, batch prediction, and model
-reload from local files, S3, GCS, or Snowflake.
+reload from local files, S3, GCS, rooted ADLS paths, or Snowflake.
 
 Limitations:
 
@@ -458,9 +479,10 @@ result = trainer.predict(prediction_table, snapshot=snapshot,
                          output_config=outputs)
 ```
 
-S3, GCS, and file connectors support `output_paths` using configured or ambient
-credentials. Rooted connectors accept relative paths. Do not combine
-`output_paths` with `artifact_type` or `table_name`. ADLS is unsupported.
+S3, GCS, file, and rooted ADLS connectors support `output_paths` using configured
+or ambient credentials. Rooted connectors accept relative paths. Rootless ADLS
+connectors are source-only. Do not combine `output_paths` with `artifact_type`
+or `table_name`.
 
 `result.files`, `result.frame`, and `result.num_rows` select predictions when both
 artifacts are requested, or embeddings for embeddings-only requests.
